@@ -1,5 +1,6 @@
 package com.milhim.ecommerce.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -26,6 +27,7 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private LocalUser user;
 
+    @JsonIgnore
     public LocalUser getUser() {
         return user;
     }
