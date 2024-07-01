@@ -21,6 +21,7 @@ public class JWTService {
     private Algorithm algorithm;
 
     private static final String USERNAME_KEY = "USERNAME";
+    private static final String EMAIL_KEY = "EMAIL";
 
     @PostConstruct
     public void postConstructed() {
@@ -35,6 +36,21 @@ public class JWTService {
                 .sign(algorithm);
     }
 
+
+    public String generateVerificationJWT(LocalUser localUser) {
+        return JWT.create()
+                .withClaim(EMAIL_KEY, localUser.getEmail())
+                .withExpiresAt(new Date(System.currentTimeMillis() * (1000L * expiryInSeconds)))
+                .withIssuer(issuer)
+                .sign(algorithm);
+    }
+
+    /**
+     * Gets Username out of jwt token
+     *
+     * @param token The JWT decoded
+     * @return the username stored inside
+     */
     public String getUsername(String token) {
         return JWT.decode(token).getClaim(USERNAME_KEY).asString();
     }
